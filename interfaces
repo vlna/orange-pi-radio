@@ -1,0 +1,11 @@
+# /etc/network/interfaces
+
+# Wired adapter #1
+auto eth0
+    iface eth0 inet dhcp
+
+# Wireless adapter #1
+    allow-hotplug wlan0
+    iface wlan0 inet dhcp
+    wpa-ssid "MyRouterSSID"
+    wpa-psk "MyPassword1234"
