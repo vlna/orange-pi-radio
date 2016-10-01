@@ -31,9 +31,9 @@ Set proper ownership
 
 `chown -R radio:radio /home/radio`
 
-Add following line before line `exit 0` in `/etc/rc.local` to run receive IR after reboot.
+Use `crontab -e` and append following line to receive IR after reboot (you can experiment with time).
 
-`sudo -H -u radio /usr/bin/irexec -d`
+`@reboot sleep 60 ; sudo -H -u radio /usr/bin/irexec -d`
 
 ## Troubleshooting
 
