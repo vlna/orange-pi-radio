@@ -17,6 +17,8 @@ Install `apt-get install firmware-realtek` to get USB wifi working (internet nee
 
 Create/modify `/etc/network/interfaces` to connect wirelessly.
 
+Install `apt-get install mpd mpc` to play and controll music.
+
 Create/modify `/etc/asound.conf` to make jack 3.5mm jack default.
 
 Create/modify `/etc/lirc/lircd.conf` to decode specific remote.
