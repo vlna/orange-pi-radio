@@ -25,7 +25,7 @@ Create account to receive IR commands and to forward it.
 
 `adduser --uid 2222 --disabled-password --disabled-login radio`
 
-Create files `handler.sh` and `.lircrc` in `/home/radio`
+Create files `handler.sh` and `.lircrc` and `radio.list` in `/home/radio`
 
 Set proper ownership
 
@@ -34,3 +34,26 @@ Set proper ownership
 Add following line before line `exit 0` in `/etc/rc.local` to run receive IR after reboot.
 
 `sudo -H -u radio /usr/bin/irexec -d`
+
+## Troubleshooting
+
+Q: MP3 radios are too quiet  
+A: Append following lines to `/etc/mpd.conf`
+
+    decoder {
+        plugin "mad"
+        enabled "no"
+    }
+
+## Remote control keys
+
+* UP/DOWN changes volume
+* LEFT/RIGHT prev/next radio
+* ASTERISK random radio
+* 1234567890 radio selection
+* HASH confirms typed numbers
+* OK mute/unmute
+
+note: any non-numeric key resets typed numbers, sequence `1 2 UP 3 1 HASH` will tune station on line 31 in file `radio.list`
+
+
