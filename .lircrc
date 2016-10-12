@@ -97,14 +97,14 @@ begin
     prog   = irexec
     remote = arduino17
     button = KEY_RIGHT
-    config = if [ -f /tmp/irchan.tmp ] ; then { /home/radio/handler.sh $(( 1 + $(cat /tmp/irchan.tmp) % ( $(wc -l /home/radio/radio.list | cut -d" " -f1 ) - 1 ) )) ; } ; else { /home/radio/handler.sh 1 ; } ; fi
+    config = if (( $(mpc playlist | wc -l) < 2 )) ; then if [ -f /tmp/irchan.tmp ] ; then { /home/radio/handler.sh $(( 1 + $(cat /tmp/irchan.tmp) % ( $(wc -l /home/radio/radio.list | cut -d" " -f1 ) - 1 ) )) ; } ; else { /home/radio/handler.sh 1 ; } ; fi ; else mpc next ; fi
     repeat = 0
 end
 begin
     prog   = irexec
     remote = arduino17
     button = KEY_LEFT
-    config = if [ -f /tmp/irchan.tmp ] ; then { /home/radio/handler.sh $(( ( $(cat /tmp/irchan.tmp) + $(wc -l /home/radio/radio.list | cut -d" " -f1 ) -2 ) % ( $(wc -l /home/radio/radio.list | cut -d" " -f1 )) +1 ))  ; } ; else { /home/radio/handler.sh $(wc -l /home/radio/radio.list | cut -d" " -f1 ) ; } ; fi
+    config = if (( $(mpc playlist | wc -l) < 2 )) ; then if [ -f /tmp/irchan.tmp ] ; then { /home/radio/handler.sh $(( ( $(cat /tmp/irchan.tmp) + $(wc -l /home/radio/radio.list | cut -d" " -f1 ) -2 ) % ( $(wc -l /home/radio/radio.list | cut -d" " -f1 )) +1 ))  ; } ; else { /home/radio/handler.sh $(wc -l /home/radio/radio.list | cut -d" " -f1 ) ; } ; fi ; else mpc prev ; fi
     repeat = 0
 end
 # hash (confirms number)
@@ -132,3 +132,4 @@ begin
     config = mpc toggle ; rm -f /tmp/irkeys.tmp
     repeat = 0
 end
+
