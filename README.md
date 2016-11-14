@@ -13,7 +13,7 @@ Orange Pi PC and Armbian based radio
 
 Install Armbian.
 
-Install `apt-get install firmware-realtek` to get USB wifi working (internet needed, use ethernet port)
+Install `apt-get install firmware-realtek` to get USB wifi working (internet needed, use ethernet port, driver already included in Armbian 5.20 and newer) 
 
 Create/modify `/etc/network/interfaces` to connect wirelessly.
 
