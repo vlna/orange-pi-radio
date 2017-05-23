@@ -3,6 +3,7 @@ begin
     remote = arduino17
     button = KEY_1
     config = echo -n 1 >> /tmp/irkeys.tmp
+
     repeat = 1
     delay  = 2
 end
@@ -11,6 +12,7 @@ begin
     remote = arduino17
     button = KEY_2
     config = echo -n 2 >> /tmp/irkeys.tmp
+
     repeat = 1
     delay  = 2
 end
@@ -19,6 +21,7 @@ begin
     remote = arduino17
     button = KEY_3
     config = echo -n 3 >> /tmp/irkeys.tmp
+
     repeat = 1
     delay  = 2
 end
@@ -27,6 +30,7 @@ begin
     remote = arduino17
     button = KEY_4
     config = echo -n 4 >> /tmp/irkeys.tmp
+
     repeat = 1
     delay  = 2
 end
@@ -35,6 +39,7 @@ begin
     remote = arduino17
     button = KEY_5
     config = echo -n 5 >> /tmp/irkeys.tmp
+
     repeat = 1
     delay  = 2
 end
@@ -43,6 +48,7 @@ begin
     remote = arduino17
     button = KEY_6
     config = echo -n 6 >> /tmp/irkeys.tmp
+
     repeat = 1
     delay  = 2
 end
@@ -51,6 +57,7 @@ begin
     remote = arduino17
     button = KEY_7
     config = echo -n 7 >> /tmp/irkeys.tmp
+
     repeat = 1
     delay  = 2
 end
@@ -59,6 +66,7 @@ begin
     remote = arduino17
     button = KEY_8
     config = echo -n 8 >> /tmp/irkeys.tmp
+
     repeat = 1
     delay  = 2
 end
@@ -67,6 +75,7 @@ begin
     remote = arduino17
     button = KEY_9
     config = echo -n 9 >> /tmp/irkeys.tmp
+
     repeat = 1
     delay  = 2
 end
@@ -75,6 +84,7 @@ begin
     remote = arduino17
     button = KEY_0
     config = echo -n 0 >> /tmp/irkeys.tmp
+
     repeat = 1
     delay  = 2
 end
@@ -83,6 +93,7 @@ begin
     remote = arduino17
     button = KEY_DOWN
     config = amixer -q sset 'Lineout volume control' 3%- ; rm -f /tmp/irkeys.tmp
+
     repeat = 1
 end
 begin
@@ -90,6 +101,7 @@ begin
     remote = arduino17
     button = KEY_UP
     config = amixer -q sset 'Lineout volume control' 3%+ ; rm -f /tmp/irkeys.tmp
+
     repeat = 1
     delay  = 2
 end
@@ -97,14 +109,16 @@ begin
     prog   = irexec
     remote = arduino17
     button = KEY_RIGHT
-    config = if (( $(mpc playlist | wc -l) < 2 )) ; then if [ -f /tmp/irchan.tmp ] ; then { /home/radio/handler.sh $(( 1 + $(cat /tmp/irchan.tmp) % ( $(wc -l /home/radio/radio.list | cut -d" " -f1 ) - 1 ) )) ; } ; else { /home/radio/handler.sh 1 ; } ; fi ; else mpc next ; fi
+    config = [ -f /tmp/irchan.tmp ] || echo 1 > /tmp/irchan.tmp ; [ $(mpc playlist | wc -l) -le 1 ] && /home/radio/handler.sh $(( 1 + ( $(cat /tmp/irchan.tmp ) ) % ( $(wc -l /home/radio/radio.list | cut -d" " -f1 ) ) )) ; [ $(mpc playlist | wc -l) -gt 1 ] && mpc next
+
     repeat = 0
 end
 begin
     prog   = irexec
     remote = arduino17
     button = KEY_LEFT
-    config = if (( $(mpc playlist | wc -l) < 2 )) ; then if [ -f /tmp/irchan.tmp ] ; then { /home/radio/handler.sh $(( ( $(cat /tmp/irchan.tmp) + $(wc -l /home/radio/radio.list | cut -d" " -f1 ) -2 ) % ( $(wc -l /home/radio/radio.list | cut -d" " -f1 )) +1 ))  ; } ; else { /home/radio/handler.sh $(wc -l /home/radio/radio.list | cut -d" " -f1 ) ; } ; fi ; else mpc prev ; fi
+    config = [ -f /tmp/irchan.tmp ] || echo 1 > /tmp/irchan.tmp ; [ $(mpc playlist | wc -l) -le 1 ] && /home/radio/handler.sh $(( 1 + ( $(cat /tmp/irchan.tmp) + $(wc -l /home/radio/radio.list | cut -d" " -f1 ) - 2) % ( $(wc -l /home/radio/radio.list | cut -d" " -f1 )) )) ; [ $(mpc playlist | wc -l) -gt 1 ] && mpc prev
+
     repeat = 0
 end
 # hash (confirms number)
@@ -113,6 +127,7 @@ begin
     remote = arduino17
     button = KEY_SPACE
     config = [ -f /tmp/irkeys.tmp ] && { /home/radio/handler.sh $(cat /tmp/irkeys.tmp) ; rm -f /tmp/irkeys.tmp ; }
+
     repeat = 0
 end
 # asterisk (random)
@@ -121,6 +136,7 @@ begin
     remote = arduino17
     button = KEY_BACK
     config = /home/radio/handler.sh $(( 1 + $RANDOM % $(wc -l /home/radio/radio.list | cut -d" " -f1) )) ; rm -f /tmp/irkeys.tmp
+
     repeat = 0
 end
 # OK (mute)
@@ -128,8 +144,7 @@ begin
     prog   = irexec
     remote = arduino17
     button = KEY_OK
-#    config = amixer -q sset 'Lineout volume control' toggle ; rm -f /tmp/irkeys.tmp
     config = mpc toggle ; rm -f /tmp/irkeys.tmp
+
     repeat = 0
 end
-
