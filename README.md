@@ -33,6 +33,10 @@ Set proper ownership
 
 `chown -R radio:radio /home/radio`
 
+and give rights to change volume on sytem mixer
+
+`usermod -a -G audio radio`
+
 Use `crontab -e` and append following line to receive IR after reboot (you can experiment with time).
 
 `@reboot sleep 60 ; sudo -H -u radio /usr/bin/irexec -d`
